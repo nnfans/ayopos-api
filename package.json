@@ -32,6 +32,7 @@
     "class-validator": "^0.12.2",
     "ioredis": "^4.19.4",
     "nestjs-redis": "^1.2.8",
+    "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
