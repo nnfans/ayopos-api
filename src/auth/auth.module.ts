@@ -16,10 +16,9 @@ import { ConfigService } from '@nestjs/config';
       useFactory: (config: ConfigService) => config.get('jwt'),
       inject: [ConfigService],
     }),
-    MyRedisService,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, MyRedisService],
   exports: [AuthService],
 })
 export class AuthModule implements NestModule {
