@@ -15,6 +15,7 @@ dependencies:
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 6.6.3
+  swagger-ui-express: 4.1.5
   typeorm: 0.2.29
 devDependencies:
   '@nestjs/cli': 6.14.2
@@ -7127,6 +7128,20 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-zoE5/e+dnEijk6ASB6/qrK+oYdm2do1hjoLWrqUC/8WEIW1gbxFcKuBof7sW8ArN6e+AYvsE8HBGiVRWL/F5CA==
+  /swagger-ui-dist/3.38.0:
+    dev: false
+    resolution:
+      integrity: sha512-sselV8VY6f1BBauY9Sdmwz0jVaWTnGuHQWei7BaTpiUrLcoEUdmmK5bKefLXiwq+dx//es2S8mOvUS+tcXDsKg==
+  /swagger-ui-express/4.1.5:
+    dependencies:
+      swagger-ui-dist: 3.38.0
+    dev: false
+    engines:
+      node: '>= v0.10.32'
+    peerDependencies:
+      express: '>=4.0.0'
+    resolution:
+      integrity: sha512-hs9OqBu2jwmhYyFUhdTiwurvbZC+bq2XnWmmbYymVdwhgJCcGkLdnqymX24ZYUve2nkYSvKPEDCo20ZF+vyw9A==
   /symbol-observable/1.2.0:
     dev: true
     engines:
@@ -8078,6 +8093,7 @@ specifiers:
   rimraf: ^3.0.0
   rxjs: ^6.5.4
   supertest: ^4.0.2
+  swagger-ui-express: ^4.1.5
   ts-jest: 25.2.0
   ts-loader: ^6.2.1
   ts-node: ^8.6.0
