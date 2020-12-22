@@ -7,6 +7,7 @@ import { RedisModule } from 'nestjs-redis';
 import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
 import dbConfig from './config/dbConfig';
 import appConfig from './config/appConfig';
 
@@ -28,6 +29,7 @@ import appConfig from './config/appConfig';
     }),
     AuthModule,
     UserModule,
+    ProductModule,
   ],
   controllers: [AppController],
 })
