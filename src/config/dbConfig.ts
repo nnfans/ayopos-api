@@ -6,7 +6,7 @@ export default () => ({
     username: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASS || '',
     database: process.env.DB_NAME || '',
-    entities: ['src/**/**.entity{.ts,.js}'],
+    autoLoadEntities: true,
     synchronize: process.env.ENV !== 'producton',
   },
   redis: {
