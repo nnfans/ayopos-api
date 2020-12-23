@@ -1,10 +1,4 @@
-export interface UserData {
-  id: number;
-  email: string;
-  name: string;
-  passwordMustChange: boolean;
-  isSuperUser: boolean;
-}
+import { UserData } from './dto';
 
 export interface UserRO {
   user: UserData;

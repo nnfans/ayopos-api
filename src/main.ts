@@ -14,8 +14,6 @@ async function bootstrap() {
     .setTitle('AyoPos')
     .setDescription('AyoPos API description')
     .setVersion('0.1')
-    .addTag('pos')
-    .addTag('inventory')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
