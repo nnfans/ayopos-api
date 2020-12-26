@@ -20,8 +20,8 @@ import {
   ApiTags,
   getSchemaPath,
   ApiExtraModels,
-  ApiHeader,
   ApiUnauthorizedResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 
 @ApiTags('User')
@@ -32,10 +32,7 @@ export class UserController {
 
   @Get('user')
   @UseGuards(AuthGuard)
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'JWT Authorization Token',
-  })
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     schema: {
