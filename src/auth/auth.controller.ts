@@ -18,8 +18,8 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   @Post('login')
   async login(
-    @Body('user') authCredentialsDto: AuthCredentialsDto,
-    @Res() res: Response
+    @Body() authCredentialsDto: AuthCredentialsDto,
+    @Res() res: Response,
   ) {
     const accessToken = await this.authService.login(authCredentialsDto);
 

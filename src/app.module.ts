@@ -9,11 +9,12 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import dbConfig from './config/dbConfig';
 import appConfig from './config/appConfig';
+import jwtConfig from './config/jwtConfig';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [appConfig, dbConfig],
+      load: [appConfig, dbConfig, jwtConfig],
       envFilePath: ['.env'],
       isGlobal: true,
     }),
