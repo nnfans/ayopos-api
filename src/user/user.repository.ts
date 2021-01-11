@@ -22,10 +22,16 @@ export class UserRepository extends Repository<UserEntity> {
     user.name = name;
     user.password = await this.hashPassword(password, await bcrypt.genSalt());
 
-    const createdUser = await this.save(user).catch((error) => {
-      if (error.number === 2627) {
+    const createdUser = await this.save(user).catch(error => {
+      // Error code duplicate in MSSQL 2627
+      if (error.number == 2627) {
         throw new ConflictException('Email already registered');
       }
+      // Error code duplicate in PostgreSQL 23505
+      if (error.code == 23505) {
+        throw new ConflictException('Email already registered');
+      }
+
       logger.error(error);
       throw new InternalServerErrorException();
     });
