@@ -12,7 +12,7 @@ export class UserService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async create(userDto: CreateUserDto): Promise<UserRO> {
+  async register(userDto: CreateUserDto): Promise<UserRO> {
     const user = await this.userRepository.registerUser(userDto);
 
     return this.buildUserRO(user);
