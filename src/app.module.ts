@@ -7,7 +7,7 @@ import { RedisModule } from 'nestjs-redis';
 import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { ProductModule } from './product/product.module';
+import { ProductsModule } from './products/products.module';
 import dbConfig from './config/dbConfig';
 import appConfig from './config/appConfig';
 import jwtConfig from './config/jwtConfig';
@@ -30,7 +30,7 @@ import jwtConfig from './config/jwtConfig';
     }),
     AuthModule,
     UserModule,
-    ProductModule,
+    ProductsModule,
   ],
   controllers: [AppController],
 })
