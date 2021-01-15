@@ -17,9 +17,6 @@ export class ProductEntity {
   @Column({ length: 40 })
   name: string;
 
-  @Column({ type: 'money' })
-  additionalCost: number;
-
   @Column({ type: 'int' })
   createdBy: number;
 
