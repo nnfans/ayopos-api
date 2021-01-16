@@ -17,6 +17,18 @@ export class ProductEntity {
   @Column({ length: 40 })
   name: string;
 
+  @Column({ type: 'money' })
+  cost: number;
+
+  @Column({ type: 'money' })
+  price: number;
+
+  @Column({ type: 'int' })
+  qty: number;
+
+  @Column({ length: 20 })
+  unit: string;
+
   @Column({ type: 'int' })
   createdBy: number;
 
