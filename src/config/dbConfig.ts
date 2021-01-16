@@ -1,4 +1,4 @@
-export default () => ({
+export default (): Record<string, unknown> => ({
   postgres: {
     type: 'postgres',
     host: process.env.DB_HOST || '127.0.0.1',
