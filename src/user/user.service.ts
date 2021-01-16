@@ -12,11 +12,7 @@ export class UserService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async findAll(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
-  }
-
-  async create(userDto: CreateUserDto): Promise<UserRO> {
+  async register(userDto: CreateUserDto): Promise<UserRO> {
     const user = await this.userRepository.registerUser(userDto);
 
     return this.buildUserRO(user);

@@ -11,7 +11,7 @@ import { HttpException } from '@nestjs/common/exceptions/http.exception';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
-  async transform(value, metadata: ArgumentMetadata) {
+  async transform(value: unknown, metadata: ArgumentMetadata): Promise<any> {
     if (!value) {
       throw new BadRequestException('No data submitted');
     }
@@ -28,14 +28,14 @@ export class ValidationPipe implements PipeTransform<any> {
           message: 'Input data validation failed',
           errors: this.buildError(errors),
         },
-        HttpStatus.BAD_REQUEST
+        HttpStatus.BAD_REQUEST,
       );
     }
     return value;
   }
 
   private buildError(errors: ValidationError[]) {
-    const result = errors.map((error) => ({
+    const result = errors.map(error => ({
       field: error.property,
       constraints: error.constraints,
     }));
@@ -44,6 +44,6 @@ export class ValidationPipe implements PipeTransform<any> {
 
   private toValidate(metatype): boolean {
     const types = [String, Boolean, Number, Array, Object];
-    return !types.find((type) => metatype === type);
+    return !types.find(type => metatype === type);
   }
 }
