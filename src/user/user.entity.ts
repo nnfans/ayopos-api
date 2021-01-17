@@ -37,7 +37,7 @@ export class UserEntity {
   updatedAt: Date;
 
   @BeforeUpdate()
-  updateTimestamp() {
+  updateTimestamp(): void {
     this.updatedAt = new Date();
   }
 

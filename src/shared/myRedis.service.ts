@@ -17,7 +17,7 @@ export class MyRedisService {
   prefixKey: '';
 
   // Check if redis client is ready
-  isReady() {
+  isReady(): boolean {
     return this.client.status == 'ready';
   }
 

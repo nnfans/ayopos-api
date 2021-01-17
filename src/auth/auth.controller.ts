@@ -3,13 +3,12 @@ import {
   Body,
   Controller,
   UsePipes,
-  Res,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto';
 import { ValidationPipe } from '../shared/pipes/validation.pipe';
 import { AuthService } from './auth.service';
-import { Response } from 'express';
 
 @Controller()
 export class AuthController {
@@ -17,12 +16,12 @@ export class AuthController {
 
   @UsePipes(new ValidationPipe())
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   async login(
     @Body() authCredentialsDto: AuthCredentialsDto,
-    @Res() res: Response,
-  ) {
+  ): Promise<{ accessToken: string }> {
     const accessToken = await this.authService.login(authCredentialsDto);
 
-    res.status(HttpStatus.OK).json({ accessToken });
+    return { accessToken };
   }
 }

@@ -19,7 +19,7 @@ export class AuthMiddleware implements NestMiddleware {
     private readonly redisService: MyRedisService,
   ) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, res: Response, next: NextFunction): Promise<void> {
     const authHeaders = req.headers.authorization;
     let user = null;
     if (authHeaders && (authHeaders as string).split(' ')[1]) {
@@ -55,7 +55,7 @@ export class AuthMiddleware implements NestMiddleware {
         );
       }
     }
-    req['user'] = user;
+    req.user = user;
     next();
   }
 }
