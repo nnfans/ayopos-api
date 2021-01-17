@@ -16,6 +16,7 @@ testUser.passwordMustChange = false;
 const mockUserRepository = () => ({
   registerUser: jest.fn(),
   findById: jest.fn(),
+  findByEmail: jest.fn(),
 });
 
 describe('UserService', () => {
@@ -78,13 +79,26 @@ describe('UserService', () => {
     });
 
     it('Throw error as user id not found', async () => {
+      const nonexistsId = 0;
       jest.spyOn(userRepository, 'findById').mockResolvedValue(undefined);
 
-      expect(userService.findById(testUser.id)).rejects.toThrow(
+      expect(userService.findById(nonexistsId)).rejects.toThrow(
         NotFoundException,
       );
 
       expect(userRepository.findById).toHaveBeenCalledWith(testUser.id);
+    });
+  });
+
+  describe('isMailExists()', () => {
+    it('Return true as mail is exists', async () => {
+      jest.spyOn(userRepository, 'findByEmail').mockResolvedValue(testUser);
+
+      const act = await userService.isMailExists(testUser.email);
+
+      expect(userRepository.findByEmail).toHaveBeenCalledWith(testUser.email);
+
+      expect(act).toEqual(true);
     });
   });
 });
