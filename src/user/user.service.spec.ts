@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { CreateUserDto } from './dto';
 import { UserEntity } from './user.entity';
@@ -5,7 +6,7 @@ import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
 
 const testUser: UserEntity = new UserEntity();
-testUser.id = 0;
+testUser.id = 1998;
 testUser.email = 'test@example.com';
 testUser.name = 'Test User';
 testUser.password = 'Test Password';
@@ -14,6 +15,7 @@ testUser.passwordMustChange = false;
 
 const mockUserRepository = () => ({
   registerUser: jest.fn(),
+  findById: jest.fn(),
 });
 
 describe('UserService', () => {
@@ -33,7 +35,7 @@ describe('UserService', () => {
   });
 
   describe('register() & private buildUserRO()', () => {
-    it('It calls registerUser & return created userRO', async () => {
+    it('Calls registerUser & return created userRO', async () => {
       const testUserDto: CreateUserDto = {
         email: testUser.email,
         name: testUser.name,
@@ -42,7 +44,7 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'registerUser').mockResolvedValue(testUser);
 
       const act = await userService.register(testUserDto);
-      expect(userRepository.registerUser).toHaveBeenCalled();
+      expect(userRepository.registerUser).toHaveBeenCalledWith(testUserDto);
 
       expect(act).toEqual({
         user: {
@@ -53,6 +55,36 @@ describe('UserService', () => {
           passwordMustChange: testUser.passwordMustChange,
         },
       });
+    });
+  });
+
+  describe('findById() & private buildUserRO()', () => {
+    it('Calls findById & return matched userId userRO', async () => {
+      jest.spyOn(userRepository, 'findById').mockResolvedValue(testUser);
+
+      const act = await userService.findById(testUser.id);
+
+      expect(userRepository.findById).toHaveBeenCalledWith(testUser.id);
+
+      expect(act).toEqual({
+        user: {
+          id: testUser.id,
+          email: testUser.email,
+          name: testUser.name,
+          isSuperUser: testUser.isSuperUser,
+          passwordMustChange: testUser.passwordMustChange,
+        },
+      });
+    });
+
+    it('Throw error as user id not found', async () => {
+      jest.spyOn(userRepository, 'findById').mockResolvedValue(undefined);
+
+      expect(userService.findById(testUser.id)).rejects.toThrow(
+        NotFoundException,
+      );
+
+      expect(userRepository.findById).toHaveBeenCalledWith(testUser.id);
     });
   });
 });
