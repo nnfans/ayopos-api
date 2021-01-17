@@ -78,7 +78,7 @@ describe('UserService', () => {
       });
     });
 
-    it('Throw error as user id not found', async () => {
+    it('Throw NotFoundException as user id not found', async () => {
       const nonexistsId = 0;
       jest.spyOn(userRepository, 'findById').mockResolvedValue(undefined);
 
@@ -86,7 +86,7 @@ describe('UserService', () => {
         NotFoundException,
       );
 
-      expect(userRepository.findById).toHaveBeenCalledWith(testUser.id);
+      expect(userRepository.findById).toHaveBeenCalledWith(nonexistsId);
     });
   });
 
