@@ -78,10 +78,10 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "lint:fix",
-      "jest --bail --findRelatedTests",
-      "git add"
+    "src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write",
+      "jest --bail --findRelatedTests"
     ]
   },
   "husky": {
