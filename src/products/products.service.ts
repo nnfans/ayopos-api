@@ -1,4 +1,4 @@
-import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from './dto';
 import { ProductEntity } from './product.entity';
@@ -11,7 +11,6 @@ export class ProductsService {
     private readonly productsRepository: ProductsRepository,
   ) {}
 
-  @UsePipes(new ValidationPipe())
   async createProduct(
     { category, cost, name, price, qty, unit }: CreateProductDto,
     userId: number,

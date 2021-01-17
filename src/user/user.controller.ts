@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   Controller,
-  UsePipes,
   ParseIntPipe,
   UseGuards,
   HttpCode,
@@ -12,7 +11,6 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto';
 import { UserRO } from './user.interface';
 import { User } from './user.decorator';
-import { ValidationPipe } from '../shared/pipes/validation.pipe';
 import { AuthGuard } from '../auth/auth.guard';
 
 @Controller()
@@ -26,7 +24,6 @@ export class UserController {
   }
 
   @Post('users')
-  @UsePipes(new ValidationPipe())
   async create(@Body() userData: CreateUserDto): Promise<UserRO> {
     const newUser = await this.userService.register(userData);
 
