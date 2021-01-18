@@ -11,21 +11,28 @@ import { ProductsModule } from './products/products.module';
 import dbConfig from './config/dbConfig';
 import appConfig from './config/appConfig';
 import jwtConfig from './config/jwtConfig';
+import dbConfigTest from './config/dbConfigTest';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [appConfig, dbConfig, jwtConfig],
+      load: [appConfig, dbConfig, dbConfigTest, jwtConfig],
       envFilePath: ['.env'],
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('postgres'),
+      useFactory: (config: ConfigService) =>
+        config.get('app.env') === 'test'
+          ? config.get('postgresTest')
+          : config.get('postgres'),
       inject: [ConfigService],
     }),
     RedisModule.forRootAsync({
-      useFactory: (config: ConfigService) => config.get('redis'),
+      useFactory: (config: ConfigService) =>
+        config.get('app.env') === 'test'
+          ? config.get('redisTest')
+          : config.get('redis'),
       inject: [ConfigService],
     }),
     AuthModule,

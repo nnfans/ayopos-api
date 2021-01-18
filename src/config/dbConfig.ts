@@ -7,7 +7,7 @@ export default (): Record<string, unknown> => ({
     password: process.env.DB_PASS || '',
     database: process.env.DB_NAME || '',
     autoLoadEntities: true,
-    synchronize: process.env.ENV !== 'producton',
+    synchronize: process.env.NODE_ENV !== 'producton',
   },
   redis: {
     host: process.env.REDIS_HOST || '127.0.0.1',
