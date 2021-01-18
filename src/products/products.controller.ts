@@ -5,8 +5,8 @@ import {
   UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { User } from 'src/user/user.decorator';
+import { AuthGuard } from '../auth/auth.guard';
+import { User } from '../user/user.decorator';
 import { CreateProductDto } from './dto/index';
 import { ProductEntity } from './product.entity';
 import { ProductsService } from './products.service';
