@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async findById(id: number): Promise<UserRO> {
-    const user = await this.userRepository.findById(id);
+    const user = await this.userRepository.findOne(id);
 
     if (!user) {
       throw new NotFoundException(`User not found`);
@@ -29,12 +29,12 @@ export class UserService {
   }
 
   async isMailExists(email: string): Promise<boolean> {
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.userRepository.findOne({ email });
 
     return !!user;
   }
 
-  private buildUserRO({
+  buildUserRO({
     id,
     email,
     name,

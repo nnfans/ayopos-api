@@ -45,7 +45,7 @@ export class AuthMiddleware implements NestMiddleware {
         Object.setPrototypeOf(user, Object.getPrototypeOf(new UserEntity()));
       } else {
         // Get user from db
-        user = await this.userRepository.findById(payload.id);
+        user = await this.userRepository.findOne(payload.id);
         // Save user to cache
         this.redisService.set(
           'user:' + payload.id,

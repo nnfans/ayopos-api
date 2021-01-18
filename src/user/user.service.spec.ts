@@ -2,6 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { CreateUserDto } from './dto';
 import { UserEntity } from './user.entity';
+import { UserRO } from './user.interface';
 import { UserRepository } from './user.repository';
 import { UserService } from './user.service';
 
@@ -13,11 +14,20 @@ testUser.password = 'Test Password';
 testUser.isSuperUser = false;
 testUser.passwordMustChange = false;
 
-const mockUserRepository = () => ({
+const testUserRO: UserRO = {
+  user: {
+    id: testUser.id,
+    email: testUser.email,
+    name: testUser.name,
+    isSuperUser: testUser.isSuperUser,
+    passwordMustChange: testUser.passwordMustChange,
+  },
+};
+
+const mockUserRepository = {
   registerUser: jest.fn(),
-  findById: jest.fn(),
-  findByEmail: jest.fn(),
-});
+  findOne: jest.fn(),
+};
 
 describe('UserService', () => {
   let userService: UserService;
@@ -27,7 +37,7 @@ describe('UserService', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         UserService,
-        { provide: UserRepository, useFactory: mockUserRepository },
+        { provide: UserRepository, useFactory: () => mockUserRepository },
       ],
     }).compile();
 
@@ -35,37 +45,31 @@ describe('UserService', () => {
     userRepository = moduleRef.get<UserRepository>(UserRepository);
   });
 
-  describe('register() & private buildUserRO()', () => {
-    it('Calls registerUser & return created userRO', async () => {
+  describe('register()', () => {
+    it('Calls registerUser', async () => {
       const testUserDto: CreateUserDto = {
         email: testUser.email,
         name: testUser.name,
         password: testUser.password,
       };
-      jest.spyOn(userRepository, 'registerUser').mockResolvedValue(testUser);
+      mockUserRepository.registerUser.mockResolvedValue('registeredUser');
+      jest.spyOn(userService, 'buildUserRO').mockReturnValue(testUserRO);
 
       const act = await userService.register(testUserDto);
       expect(userRepository.registerUser).toHaveBeenCalledWith(testUserDto);
+      expect(userService.buildUserRO).toHaveBeenCalledWith('registeredUser');
 
-      expect(act).toEqual({
-        user: {
-          id: testUser.id,
-          email: testUser.email,
-          name: testUser.name,
-          isSuperUser: testUser.isSuperUser,
-          passwordMustChange: testUser.passwordMustChange,
-        },
-      });
+      expect(act).toEqual(testUserRO);
     });
   });
 
-  describe('findById() & private buildUserRO()', () => {
-    it('Calls findById & return matched userId userRO', async () => {
-      jest.spyOn(userRepository, 'findById').mockResolvedValue(testUser);
+  describe('findById()', () => {
+    it('Calls findById', async () => {
+      mockUserRepository.findOne.mockResolvedValue(testUser);
 
       const act = await userService.findById(testUser.id);
 
-      expect(userRepository.findById).toHaveBeenCalledWith(testUser.id);
+      expect(userRepository.findOne).toHaveBeenCalledWith(testUser.id);
 
       expect(act).toEqual({
         user: {
@@ -80,23 +84,25 @@ describe('UserService', () => {
 
     it('Throw NotFoundException as user id not found', async () => {
       const nonexistsId = 0;
-      jest.spyOn(userRepository, 'findById').mockResolvedValue(undefined);
+      mockUserRepository.findOne.mockResolvedValue(undefined);
 
       expect(userService.findById(nonexistsId)).rejects.toThrow(
         NotFoundException,
       );
 
-      expect(userRepository.findById).toHaveBeenCalledWith(nonexistsId);
+      expect(userRepository.findOne).toHaveBeenCalledWith(nonexistsId);
     });
   });
 
   describe('isMailExists()', () => {
     it('Return true as mail is exists', async () => {
-      jest.spyOn(userRepository, 'findByEmail').mockResolvedValue(testUser);
+      mockUserRepository.findOne.mockResolvedValue(testUser);
 
       const act = await userService.isMailExists(testUser.email);
 
-      expect(userRepository.findByEmail).toHaveBeenCalledWith(testUser.email);
+      expect(userRepository.findOne).toHaveBeenCalledWith({
+        email: testUser.email,
+      });
 
       expect(act).toEqual(true);
     });

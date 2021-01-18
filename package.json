@@ -31,12 +31,14 @@
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "ioredis": "^4.19.4",
+    "nest-winston": "^1.4.0",
     "nestjs-redis": "^1.2.8",
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
-    "typeorm": "^0.2.29"
+    "typeorm": "^0.2.29",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.4",
